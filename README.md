@@ -1,6 +1,6 @@
 # Cloudflare のバイパス：ベストプラクティス
 
-[![Promo](https://github.com/luminati-io/LinkedIn-Scraper/raw/main/Proxies%20and%20scrapers%20GitHub%20bonus%20banner.png)](https://brightdata.jp/) 
+[![Promo](https://github.com/bright-jp/LinkedIn-Scraper/raw/main/Proxies%20and%20scrapers%20GitHub%20bonus%20banner.png)](https://brightdata.jp/) 
 
 このガイドでは、Cloudflare のセキュリティをバイパスし、ブロックされることなく Webサイトを正常にスクレイピングする方法を解説します。
 
@@ -128,7 +128,7 @@ driver = uc.Chrome(
 
 ### Using Cloudflare Solvers
 
-専用の [Cloudflare solver services](https://github.com/luminati-io/cloudflare-captcha-solver) は、基本的な保護を一時的にバイパスできる場合があります。たとえば cloudscraper は JavaScript エンジンを使用してブラウザサポートをシミュレートしますが、アップデートが古いと有効性が低下する可能性があります。
+専用の [Cloudflare solver services](https://github.com/bright-jp/cloudflare-captcha-solver) は、基本的な保護を一時的にバイパスできる場合があります。たとえば cloudscraper は JavaScript エンジンを使用してブラウザサポートをシミュレートしますが、アップデートが古いと有効性が低下する可能性があります。
 
 ### Advanced Techniques
 
@@ -136,7 +136,7 @@ Cloudflare は複数のボット検知手法を採用しているため、単一
 
 ## Incorporating Bright Data Solutions
 
-[Bright Data’s Web Unlocker](https://github.com/luminati-io/web-unlocker-api) は、AI を使用してアンチボット対策（ブラウザフィンガープリント、CAPTCHA solving、IP rotation、リクエストのリトライなど）を突破し、99.99% の成功率で Cloudflare のボット検知をバイパスすることを簡素化します。最適なプロキシを自動選択し、シンプルな認証情報を提供するため、標準のプロキシサーバーと同様に使用できます。他のプロキシサーバーと同じように利用できます。
+[Bright Data’s Web Unlocker](https://github.com/bright-jp/web-unlocker-api) は、AI を使用してアンチボット対策（ブラウザフィンガープリント、CAPTCHA solving、IP rotation、リクエストのリトライなど）を突破し、99.99% の成功率で Cloudflare のボット検知をバイパスすることを簡素化します。最適なプロキシを自動選択し、シンプルな認証情報を提供するため、標準のプロキシサーバーと同様に使用できます。他のプロキシサーバーと同じように利用できます。
 
 ```python
 import requests
@@ -161,7 +161,7 @@ response = requests.get(url, proxies=proxies)
 print(response.json())
 ```
 
-[Bright Data's Scraping Browser](https://github.com/luminati-io/scraping-browser) は、複数のプロキシを使用してサイトをアンロックするリモートブラウザ上でコードを実行することで Cloudflare をバイパスします。[Puppeteer](https://brightdata.jp/products/scraping-browser/puppeteer)、[Selenium](https://brightdata.jp/products/scraping-browser/selenium)、[Playwright](https://brightdata.jp/products/scraping-browser/playwright) と統合でき、完全な headless 体験を提供します。
+[Bright Data's Scraping Browser](https://github.com/bright-jp/scraping-browser) は、複数のプロキシを使用してサイトをアンロックするリモートブラウザ上でコードを実行することで Cloudflare をバイパスします。[Puppeteer](https://brightdata.jp/products/scraping-browser/puppeteer)、[Selenium](https://brightdata.jp/products/scraping-browser/selenium)、[Playwright](https://brightdata.jp/products/scraping-browser/playwright) と統合でき、完全な headless 体験を提供します。
 
 ## Conclusion
 

@@ -1,8 +1,8 @@
-# Bypassing Cloudflare: Best Practices
+# Cloudflare のバイパス：ベストプラクティス
 
-[![Promo](https://github.com/luminati-io/LinkedIn-Scraper/raw/main/Proxies%20and%20scrapers%20GitHub%20bonus%20banner.png)](https://brightdata.com/) 
+[![Promo](https://github.com/luminati-io/LinkedIn-Scraper/raw/main/Proxies%20and%20scrapers%20GitHub%20bonus%20banner.png)](https://brightdata.jp/) 
 
-This guide explains how to bypass Cloudflare’s security and successfully scrape websites without getting blocked.
+このガイドでは、Cloudflare のセキュリティをバイパスし、ブロックされることなく Webサイトを正常にスクレイピングする方法を解説します。
 
 - [Using Proxy Solutions](#using-proxy-solutions)
 - [Spoofing HTTP Headers](#spoofing-http-headers)
@@ -12,33 +12,33 @@ This guide explains how to bypass Cloudflare’s security and successfully scrap
 - [Advanced Techniques](#advanced-techniques)
 - [Incorporating Bright Data Solutions](#incorporating-bright-data-solutions)
 
-## Understanding Cloudflare’s Mechanisms
+## Cloudflare の仕組みを理解する
 
-Cloudflare’s [web application firewall](https://www.cloudflare.com/application-services/products/waf/) (WAF) protects web apps from DDoS and zero-day attacks. Running on its global network, it stops attacks in real time and uses a proprietary algorithm to identify and block malicious bots based on several traits:
+Cloudflare の [web application firewall](https://www.cloudflare.com/application-services/products/waf/)（WAF）は、Webアプリを DDoS やゼロデイ攻撃から保護します。グローバルネットワーク上で稼働し、リアルタイムで攻撃を阻止するとともに、独自アルゴリズムにより複数の特徴に基づいて悪意のあるボットを特定してブロックします。
 
-- [**TLS fingerprints**](https://brightdata.com/blog/web-data/tls-fingerprinting): JA3 fingerprints identify the clients and their capabilities and configurations and verify if a client is genuine.
-- **[HTTP/2 fingerprints](https://www.blackhat.com/docs/eu-17/materials/eu-17-Shuster-Passive-Fingerprinting-Of-HTTP2-Clients-wp.pdf)**: Uses HTTP/2 parameters to match against known bot signatures.
-- **HTTP details**: Inspects headers and cookies for bot-like configurations.
-- **JavaScript fingerprints**: Gathers browser, OS, and hardware details to distinguish bots.
-- **Behavior analysis**: Monitors request rates, mouse movements, and idle times with machine learning to detect bots.
+- [**TLS fingerprints**](https://brightdata.jp/blog/web-data/tls-fingerprinting): JA3 fingerprints によりクライアントおよびその機能・設定を識別し、クライアントが正当かどうかを検証します。
+- **[HTTP/2 fingerprints](https://www.blackhat.com/docs/eu-17/materials/eu-17-Shuster-Passive-Fingerprinting-Of-HTTP2-Clients-wp.pdf)**: HTTP/2 のパラメータを使用して、既知のボットシグネチャと照合します。
+- **HTTP details**: ヘッダーや Cookie を検査し、ボットらしい構成を検出します。
+- **JavaScript fingerprints**: ブラウザ、OS、ハードウェアの詳細を収集してボットを判別します。
+- **Behavior analysis**: 機械学習により、リクエストレート、マウスの動き、アイドル時間を監視してボットを検出します。
 
-If bot-like activity is detected, Cloudflare issues a background JavaScript challenge; failure results in a CAPTCHA.
+ボットらしい挙動が検出されると、Cloudflare はバックグラウンドの JavaScript challenge を発行し、失敗すると CAPTCHA になります。
 
-## Techniques to Bypass Cloudflare
+## Cloudflare をバイパスするテクニック
 
-Cloudflare’s proprietary bot detection isn’t foolproof, so you'll need to experiment to find the best approach for your needs.
+Cloudflare の独自ボット検知は完全ではないため、要件に合った最適なアプローチを見つけるには試行が必要です。
 
 ### Using Proxy Solutions
 
-Cloudflare detects bots by flagging too many requests from a single IP. To avoid this, use [premium residential proxies](https://brightdata.com/proxy-types/residential-proxies). However, if user-agent checks are in play, you'll need to spoof the user agent.
+Cloudflare は、単一の IPアドレス からのリクエストが多すぎる場合にフラグを立てることでボットを検出します。これを回避するには、[premium residential proxies](https://brightdata.jp/proxy-types/residential-proxies) を使用してください。ただし user-agent のチェックが行われている場合は、user agent のスプーフィングも必要です。
 
 ### Spoofing HTTP Headers
 
-[HTTP headers](https://brightdata.com/blog/web-data/http-headers-for-web-scraping) reveal client details. Cloudflare checks these to differentiate real browsers, which send many headers, from scrapers that send few. Most scraper tools let you modify headers to mimic a genuine browser. Common headers include:
+[HTTP headers](https://brightdata.jp/blog/web-data/http-headers-for-web-scraping) はクライアントの詳細を明らかにします。Cloudflare はこれらをチェックして、多数のヘッダーを送る実ブラウザと、少数しか送らないスクレイパーを区別します。多くのスクレイパーツールでは、正規のブラウザを模倣するためにヘッダーを変更できます。一般的なヘッダーは次のとおりです。
 
 #### User-Agent Header
 
-The `User-Agent` header reveals the browser and OS. Cloudflare may block bot-like User-Agents, so spoofing it to mimic a real browser (e.g., Chrome, Firefox, Safari) can help avoid detection. For example, in Python’s [`requests` library](https://pypi.org/project/requests/), you can set it like this:
+`User-Agent` ヘッダーはブラウザと OS を示します。Cloudflare はボットらしい User-Agent をブロックする可能性があるため、実ブラウザ（例：Chrome、Firefox、Safari）を模倣するようにスプーフィングすると検出回避に役立ちます。たとえば、Python の [`requests` library](https://pypi.org/project/requests/) では次のように設定できます。
 
 ```python
 import requests
@@ -55,7 +55,7 @@ print(response.text)
 
 #### Referrer Header
 
-Cloudflare checks the `Referer` header to verify a request's source. Spoofing it with a valid URL can make the request appear trusted.
+Cloudflare は `Referer` ヘッダーをチェックして、リクエストの送信元を検証します。有効な URL でスプーフィングすると、そのリクエストが信頼できるものに見える可能性があります。
 
 ```python
 import requests
@@ -72,7 +72,7 @@ print(response.text)
 
 #### Accept Headers
 
-`Accept` headers specify which content types a client can handle. Mimicking a real browser's detailed `Accept` headers can help avoid detection:
+`Accept` ヘッダーは、クライアントが処理できるコンテンツタイプを指定します。実ブラウザの詳細な `Accept` ヘッダーを模倣すると、検出回避に役立つ場合があります。
 
 ```python
 import requests
@@ -87,17 +87,17 @@ print(response.status_code)
 print(response.text)
 ```
 
-Cloudflare also checks for header mismatches and outdated headers. For instance, using a Firefox user agent with `Sec-CH-UA-Full-Version-List` can result in a block, as Firefox doesn’t support it.
+Cloudflare はヘッダーの不整合や古いヘッダーもチェックします。たとえば、Firefox の user agent と `Sec-CH-UA-Full-Version-List` を併用すると、Firefox はこれをサポートしないためブロックされる可能性があります。
 
 ### Implementing CAPTCHA-Solving Services
 
-Cloudflare may show a CAPTCHA to suspicious clients when other detection methods fall short. Its Turnstile system runs lightweight, non-interactive challenges but can switch to interactive CAPTCHAs that challenge scrapers. Additionally, many services employ human solvers to bypass these CAPTCHAs. Read our article about [the best CAPTCHA Solvers]( https://brightdata.com/blog/web-data/best-captcha-solvers) to find the perfect service for your use case. 
+Cloudflare は、他の検知手法だけでは判定が難しい場合、疑わしいクライアントに CAPTCHA を表示することがあります。同社の Turnstile システムは軽量で非対話型の challenge を実行しますが、スクレイパーに対しては対話型の CAPTCHA に切り替わることもあります。また、多くのサービスでは、これらの CAPTCHA をバイパスするために人手のソルバーを採用しています。ユースケースに最適なサービスを見つけるには、[the best CAPTCHA Solvers]( https://brightdata.jp/blog/web-data/best-captcha-solvers) に関する記事をお読みください。 
 
 ### Using a Fortified Headless Browser
 
-To bypass Cloudflare’s JavaScript challenges, your scraper must mimic real browser behavior—executing JavaScript, handling cookies, and simulating actions like scrolling, mouse movements, and clicks. Tools like [Selenium](https://www.selenium.dev/) can do this, but [headless browsers](https://brightdata.com/blog/web-data/best-headless-browsers) often reveal themselves (e.g., via `navigator.webdriver`). Plugins such as [undetected_chromedriver](https://github.com/ultrafunkamsterdam/undetected-chromedriver) and [puppeteer-extra-plugin-stealth](https://brightdata.com/blog/how-tos/avoid-getting-blocked-with-puppeteer-stealth) help mask these traits.
+Cloudflare の JavaScript challenge をバイパスするには、スクレイパーが実ブラウザの挙動を模倣する必要があります。つまり、JavaScript を実行し、Cookie を処理し、スクロール、マウス移動、クリックなどの操作をシミュレートします。[Selenium](https://www.selenium.dev/) のようなツールで実現できますが、[headless browsers](https://brightdata.jp/blog/web-data/best-headless-browsers) はしばしば正体が露呈します（例：`navigator.webdriver`）。[undetected_chromedriver](https://github.com/ultrafunkamsterdam/undetected-chromedriver) や [puppeteer-extra-plugin-stealth](https://brightdata.jp/blog/how-tos/avoid-getting-blocked-with-puppeteer-stealth) のようなプラグインは、これらの特徴を隠すのに役立ちます。
 
-Below is an example using undetected_chromedriver:
+以下は undetected_chromedriver を使用する例です。
 
 ```python
 import undetected_chromedriver.v2 as uc
@@ -106,7 +106,7 @@ with driver:
     driver.get('https://example.com')
 ```
 
-You can pair the headless browser with [a high-quality proxy service](https://brightdata.com/proxy-types) to more it resilient against Cloudflare:
+headless browser を [a high-quality proxy service](https://brightdata.jp/proxy-types) と組み合わせることで、Cloudflare に対してさらに耐性を高められます。
 
 ```python
 chrome_options = uc.ChromeOptions()
@@ -124,19 +124,19 @@ driver = uc.Chrome(
 )
 ```
 
-Browsers update often, exposing headless signatures, and Cloudflare’s evolving algorithms can exploit these. Consequently, plugins must be regularly maintained or they may stop working.
+ブラウザは頻繁にアップデートされ、headless のシグネチャが露呈することがあります。また、Cloudflare の進化するアルゴリズムがそれらを悪用する可能性もあります。そのため、プラグインは定期的にメンテナンスしないと動作しなくなることがあります。
 
 ### Using Cloudflare Solvers
 
-Dedicated [Cloudflare solver services](https://github.com/luminati-io/cloudflare-captcha-solver) can bypass basic protections temporarily. For example, cloudscraper uses a JavaScript engine to simulate browser support, though its outdated updates may reduce its effectiveness.
+専用の [Cloudflare solver services](https://github.com/luminati-io/cloudflare-captcha-solver) は、基本的な保護を一時的にバイパスできる場合があります。たとえば cloudscraper は JavaScript エンジンを使用してブラウザサポートをシミュレートしますが、アップデートが古いと有効性が低下する可能性があります。
 
 ### Advanced Techniques
 
-Cloudflare employs multiple bot detection methods, so no single technique is enough. Instead, combine approaches to mimic a real user. For example, use a fortified headless browser, simulate human mouse movements (e.g., [B-spline curves](https://stackoverflow.com/a/48690652)), rotate residential proxies to avoid IP bans, and use tools like [Hazetunnel](https://github.com/daijro/hazetunnel) to replicate genuine browser fingerprints. Adding a CAPTCHA solver further enhances your chances of bypassing Cloudflare's defenses.
+Cloudflare は複数のボット検知手法を採用しているため、単一のテクニックだけでは不十分です。代わりに、実ユーザーを模倣するために複数のアプローチを組み合わせてください。たとえば、強化した headless browser を使用し、人間のマウス移動（例：[B-spline curves](https://stackoverflow.com/a/48690652)）をシミュレートし、IP BAN を避けるためにレジデンシャルプロキシをローテーションし、[Hazetunnel](https://github.com/daijro/hazetunnel) のようなツールで正規のブラウザフィンガープリントを再現します。さらに CAPTCHA solver を追加すると、Cloudflare の防御をバイパスできる可能性が高まります。
 
 ## Incorporating Bright Data Solutions
 
-[Bright Data’s Web Unlocker](https://github.com/luminati-io/web-unlocker-api) simplifies bypassing Cloudflare’s bot detection by using AI to overcome anti-bot measures (like browser fingerprinting, CAPTCHA solving, IP rotation, and request retries) with a 99.99% success rate. It automatically selects the best proxies and provides simple credentials, allowing you to use it like any standard proxy server. You can use it like any other proxy server:
+[Bright Data’s Web Unlocker](https://github.com/luminati-io/web-unlocker-api) は、AI を使用してアンチボット対策（ブラウザフィンガープリント、CAPTCHA solving、IP rotation、リクエストのリトライなど）を突破し、99.99% の成功率で Cloudflare のボット検知をバイパスすることを簡素化します。最適なプロキシを自動選択し、シンプルな認証情報を提供するため、標準のプロキシサーバーと同様に使用できます。他のプロキシサーバーと同じように利用できます。
 
 ```python
 import requests
@@ -161,8 +161,8 @@ response = requests.get(url, proxies=proxies)
 print(response.json())
 ```
 
-[Bright Data's Scraping Browser](https://github.com/luminati-io/scraping-browser) bypasses Cloudflare by running your code on a remote browser that uses multiple proxies to unlock sites. It integrates with [Puppeteer](https://brightdata.com/products/scraping-browser/puppeteer), [Selenium](https://brightdata.com/products/scraping-browser/selenium), and [Playwright](https://brightdata.com/products/scraping-browser/playwright), offering a full headless experience.
+[Bright Data's Scraping Browser](https://github.com/luminati-io/scraping-browser) は、複数のプロキシを使用してサイトをアンロックするリモートブラウザ上でコードを実行することで Cloudflare をバイパスします。[Puppeteer](https://brightdata.jp/products/scraping-browser/puppeteer)、[Selenium](https://brightdata.jp/products/scraping-browser/selenium)、[Playwright](https://brightdata.jp/products/scraping-browser/playwright) と統合でき、完全な headless 体験を提供します。
 
 ## Conclusion
 
-Evading Cloudflare can be complicated, and it comes with varying degrees of success. Instead of duct-taping a solution, consider using [Bright Data’s offerings](https://brightdata.com/products), such as the Web Unlocker, Scraping Browser, and Web Scraper API. With only a few lines of code, you get a higher rate of success without needing to worry about managing complex solutions.
+Cloudflare の回避は複雑になり得て、成功率もさまざまです。場当たり的にソリューションを継ぎはぎするのではなく、Web Unlocker、Scraping Browser、Web Scraper API などの [Bright Data’s offerings](https://brightdata.jp/products) の利用をご検討ください。わずか数行のコードで、複雑なソリューションの管理を心配することなく、より高い成功率を得られます。
